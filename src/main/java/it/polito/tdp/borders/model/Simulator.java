@@ -12,6 +12,7 @@ public class Simulator {
 	// Stato del sistema e output
 	private Map<Country, Integer> stanziali ;
 	
+
 	// Parametri della simulazione
 	private Graph<Country, DefaultEdge> graph ;
 	private int nPersone = 1000 ;
@@ -38,13 +39,14 @@ public class Simulator {
 		this.queue = new PriorityQueue<>() ;
 	}
 	
-	private void initialize() {
+	public void initialize() {
 		this.queue.add(new Event( 0, this.partenza, this.nPersone ));
 	}
 	
-	private void run() {
+	public void run() {
 		while(!this.queue.isEmpty()) {
 			Event e = this.queue.poll() ;
+			System.out.println(e);
 			int time = e.getTime() ;
 			Country destinazione = e.getDestinazione() ;
 			int dimensione = e.getDimensione() ;
@@ -57,6 +59,10 @@ public class Simulator {
 
 		}
 	}
-	
+
+	public Map<Country, Integer> getStanziali() {
+		return stanziali;
+	}
+
 
 }
