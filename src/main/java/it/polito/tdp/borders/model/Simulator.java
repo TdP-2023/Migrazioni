@@ -1,10 +1,12 @@
 package it.polito.tdp.borders.model;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 
 import org.jgrapht.Graph;
+import org.jgrapht.Graphs;
 import org.jgrapht.graph.DefaultEdge;
 
 public class Simulator {
@@ -51,13 +53,30 @@ public class Simulator {
 			Country destinazione = e.getDestinazione() ;
 			int dimensione = e.getDimensione() ;
 			
+			this.nPassi = time ;
+			
+			List<Country> vicini = Graphs.neighborListOf(this.graph, destinazione) ;
+			int migranti = dimensione/2/vicini.size() ;
+			System.out.println(destinazione.getStateAbb()+" ha "+vicini.size()+" confinanti");
 			
 			// dimensione / 2 si dividono negli stati adiacenti
 			// generando eventi INGRESSO con la quota di persone
+			if(migranti>0) {
+				for(Country c : vicini) {
+					this.queue.add(new Event(time+1, c, migranti)) ;
+				}
+			}
 
 			// i rimanenti diventano stanziali nello stato 'destinazione'
+			int nuovi_stanziali = dimensione - migranti * vicini.size() ;
+			this.stanziali.put(destinazione, 
+					this.stanziali.get(destinazione)+nuovi_stanziali) ;
 
 		}
+	}
+
+	public int getnPassi() {
+		return nPassi;
 	}
 
 	public Map<Country, Integer> getStanziali() {

@@ -84,6 +84,7 @@ public class FXMLController {
 			if(num>0)
 				txtResult.appendText(" > "+c.getStateAbb()+" : "+num+"\n");
 		}
+		txtResult.appendText("Passi di simulazione: "+model.getnPassiSim()+"\n");
 
 	}
 
